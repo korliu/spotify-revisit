@@ -1,2 +1,5 @@
-[build-system]
-requires = ["Flask", "twilio"]
+[project]
+dependencies = [
+  "Flask",
+  "twilio"
+]
