@@ -1,5 +1,9 @@
 [project]
+name = "spotify-revisit"
+version = "1.0"
 dependencies = [
   "Flask",
   "twilio"
+  "flask-cors,
+  "requests"
 ]

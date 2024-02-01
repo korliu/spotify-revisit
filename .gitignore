@@ -37,7 +37,11 @@ next-env.d.ts
 /spotify-profile-demo
 
 # virtual env
-/.venv
+.env
+.venv
 
 #.archive
 .archive
+
+# pycache
+__pycache__
