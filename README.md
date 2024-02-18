@@ -8,7 +8,7 @@ Leverage Spotify API to create playlists, such as revisiting old songs
 - Node.js v20.10.0
 
 ## Instructions
-1. `python -m venv .venv`
+1. `python -m venv .venv` -> `.venv/Scripts/activate`
 2. `pip install -r requirements.txt`
 3. `cd client` -> `npm install`
 
