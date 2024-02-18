@@ -4,8 +4,8 @@
 Leverage Spotify API to create playlists, such as revisiting old songs
 
 
-## Python 3.11.8
-## Node.js v20.10.0
+- Python 3.11.8
+- Node.js v20.10.0
 
 ## Instructions
 1. `python -m venv .venv`
