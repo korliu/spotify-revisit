@@ -7,8 +7,8 @@ const nextConfig = {
         SERVER: 'http://localhost:5000',
         CLIENT: 'http://localhost:5173',
         SPOTIFY_CLIENT_ID: '58068c9e86e64d2dbc08e4a5c8b8e1ab',
-        REDIRECT_URI: 'http://localhost:5173/callback'
-
+        REDIRECT_URI: 'http://localhost:5173/callback',
+        PUBLIC_URL: ''
     },
     async redirects() {
         return [
@@ -18,6 +18,17 @@ const nextConfig = {
                 permanent: true,
             }
 
+        ]
+    },
+
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**',
+                port: '',
+
+            }
         ]
     }
 };

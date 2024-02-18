@@ -9,7 +9,11 @@ export function useAccessToken(initialValue: string){
 
     useEffect( () => {
 
-        const token = localStorage.getItem("accessToken") ?? "";
+        const token = localStorage.getItem("accessToken");
+
+        if (!token){
+            redirect("/landing");
+        }
 
         setAccessToken(token);
 
@@ -24,20 +28,11 @@ export function useVerifierAndChallenge(){
     const [verifier, setVerifier] = useState("");
     const [challenge, setChallenge] = useState("");
 
-    // console.log("Custom verifier getter");
-    // console.log({codeVerifier: localStorage.getItem("codeVerifier"), codeChallenge: localStorage.getItem("codeChallenge")});
-    
-
     useEffect( () => {
         const setVerifierAndChallenge = async () => {
             const codeVerifier = localStorage.getItem("codeVerifier") ?? "";
             const codeChallenge = localStorage.getItem("codeChallenge") ?? "";
-    
-            console.log("VERIFIER", codeVerifier, localStorage.getItem("codeVerifier"));
-    
-            // console.log("Custom verifier getter");
-            // console.log({codeVerifier: localStorage.getItem("codeVerifier"), codeChallenge: localStorage.getItem("codeChallenge")});
-            
+        
             setVerifier(codeVerifier);
             setChallenge(codeChallenge);
         }
@@ -53,5 +48,12 @@ export function useVerifierAndChallenge(){
         "verifier": verifier,
         "challenge": challenge,
     };
+
+}
+
+export function useRefreshToken(refresh_token: string){
+
+    const [refreshToken, setRefreshToken] = useState("");
+
 
 }

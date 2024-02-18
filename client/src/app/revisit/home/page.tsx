@@ -1,13 +1,16 @@
-// import * as React from 'react'
-import { redirect } from 'next/navigation'
+"use client";
 
-const client = process.env.CLIENT!;
-const server = process.env.SERVER!;
+import UserTopGenres from "@/components/sidebar/UserTopGenres";
 
-export default function Home(){
-  
-  // redirect("/revisit/profile")
 
-  return (<><h2>Home page!</h2></>)
+
+export default function HomePage() {
+
+  return (
+    <>
+      <UserTopGenres />
+    </>
+  );
 
 }
+

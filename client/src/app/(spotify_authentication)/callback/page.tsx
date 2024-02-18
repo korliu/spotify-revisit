@@ -1,30 +1,31 @@
 "use client";
 
-import { useVerifierAndChallenge } from '@/hooks/authentication';
+import { useVerifierAndChallenge } from '@/hooks/useAuthentication';
 import { fetchAccessToken } from '@/lib/auth'
 import { useQuery } from '@tanstack/react-query';
-import { redirect } from 'next/navigation'
-import { useState, useEffect } from 'react';
+import { redirect, useSearchParams } from 'next/navigation'
+import { REDIRECT_URI } from '@/lib/_constants';
 
+export default function Main(){
 
-const clientId = process.env.SPOTIFY_CLIENT_ID!;
-const redirectURI = process.env.REDIRECT_URI!;
-
-export default function Main( { searchParams }: 
-  { searchParams: { code: string | undefined } }){
+    const searchParams = useSearchParams();
     
-    const accessCode: string | undefined = searchParams.code;
+    const accessCode: string | undefined = searchParams.get('code') ?? "";
 
     const { verifier } = useVerifierAndChallenge();
 
     const codeAndVerifierExists: () => boolean = () => {
-      console.log("checking if exists", accessCode, verifier, !!((accessCode) && (verifier)));
       return !!((accessCode) && (verifier));
     }
 
     const {data, isLoading, error, isFetched} = useQuery({
-        queryKey: ["access-token", clientId, accessCode, verifier, redirectURI],
-        queryFn: () => fetchAccessToken(clientId, accessCode!, verifier!, redirectURI), 
+        queryKey: ["query-access-token", accessCode, verifier, REDIRECT_URI],
+        queryFn: async ()  => {
+          const r = await fetchAccessToken(accessCode!, verifier!, REDIRECT_URI);
+          const response = await r.json();
+
+          return response;
+        }, 
         // only runs when both exist
         enabled: codeAndVerifierExists()
     });
@@ -47,15 +48,11 @@ export default function Main( { searchParams }:
     };
 
 
-    const {access_token, refresh_token} = data;
+    const {access_token} = data;
 
     localStorage.setItem("accessToken",access_token);
-    localStorage.setItem("refreshToken", refresh_token);
 
     redirect("/revisit/home")
-
-
-
 
   }
 

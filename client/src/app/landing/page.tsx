@@ -1,22 +1,19 @@
 "use client"
 
 
-import { useAccessToken, useVerifierAndChallenge } from "@/hooks/authentication"
+import { useAccessToken, useVerifierAndChallenge } from "@/hooks/useAuthentication"
 import { fetchServer } from "@/lib/request";
 import { useRouter } from "next/navigation";
-import { fetchAccessToken } from '@/lib/auth';
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export default function LandingPage(){
 
-    console.log("helloo")
-
     const router = useRouter();
-    const accessToken = useAccessToken("");
-
-
     const handleLogin = () => {
-            
+
+        const accessToken = localStorage.getItem("accessToken");
+
         if (accessToken){
             // TODO: check if access token is still valid
             // redirect to home

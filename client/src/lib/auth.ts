@@ -2,36 +2,43 @@ import { headers } from "next/headers";
 import { fetchServer } from "./request";
 // import { fetchRequest } from "./request";
 
-export async function fetchAccessToken(
-    clientId: string, authCode: string, codeVerifier:string, redirectURI: string
-    ): Promise<any> {
 
-    const tokenRoute = "/access_token";
+const clientId = process.env.SPOTIFY_CLIENT_ID!;
+export async function fetchAccessToken(
+    authCode: string, codeVerifier:string, redirectURI: string): Promise<Response> {
+
+    const tokenRoute = "/access-token";
 
     const data = {
-        'client_id': clientId,
         'grant_type': "authorization_code",
+        'client_id': clientId,
         'code': authCode,
         'code_verifier': codeVerifier,
         'redirect_uri': redirectURI
     };
 
-    const request = await fetchServer('POST', tokenRoute, {
+    const response = await fetchServer('POST', tokenRoute, {
         body: JSON.stringify(data),
         headers: {"Content-Type": "application/json"}
     });
 
-    // frontend request token
-    // const method = 'POST';
-    // const headers = {"Content-Type": "application/x-www-form-urlencoded"};
-    // const body = new URLSearchParams(data);
-    // const payload = {
-    //     method: method,
-    //     headers: headers,
-    //     body: body,
-    // }
-    // const spotifyTokenEndpoint = "https://accounts.spotify.com/api/token";
-    // const request = await fetch(spotifyTokenEndpoint, payload);
+    return response
+}
 
-    return await request.json();
+export async function refreshAccessToken(refreshToken: string): Promise<Response> {
+
+    const tokenRoute = "/access-token";
+
+    const data = {
+        'grant_type': "refresh_token",
+        'client_id': clientId,
+        'refresh_token': refreshToken,
+    }
+
+    const response = await fetchServer('POST', tokenRoute, {
+        body: JSON.stringify(data),
+        headers: {"Content-Type": "application/json"}
+    });
+
+    return response
 }
