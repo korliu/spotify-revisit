@@ -15,6 +15,7 @@ Leverage Spotify API to create playlists, such as revisiting old songs
 3. `pip install .`
 5. `cd client`
 6. `npm install`
+7. You will need to set up a `.env` in the main directory
 
 ## Turn on website: Open two terminals
 
