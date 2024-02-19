@@ -21,7 +21,7 @@ Leverage Spotify API to create playlists, such as revisiting old songs
 ### To turn on frontend: 
 1. `cd client`
 2. `npm run dev`
-3. `Navigate to`: https://localhost:5173
+3. `Navigate to:` https://localhost:5173
 
 ### To turn on backend server:
 - note: You will need to generate a secret key for flask
