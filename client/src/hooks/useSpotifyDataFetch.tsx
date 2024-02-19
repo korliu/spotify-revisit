@@ -7,11 +7,11 @@ import { fetchServerSpotify } from "@/lib/request";
 
 
 
-export default function useDataFetch(
+export default function useDataFetch<T>(
   queryKey: string,
   queryRoute: string,
   queryOptions: object = {},
-): { data: unknown, isLoading: boolean, error: Error | null, isFetched: boolean } {
+): { data: T, isLoading: boolean, error: Error | null, isFetched: boolean } {
 
   const accessToken = useAccessToken("");
 

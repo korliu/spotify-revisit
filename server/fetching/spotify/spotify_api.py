@@ -20,7 +20,7 @@ def fetch_profile_data(access_token: str) -> requests.Response:
 
 # https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
 def fetch_user_top_tracks(access_token: str, data) -> requests.Response:
-    access_token = access_token
+
     request_headers = token_header(access_token)
     route = "/me/top/tracks"
 
@@ -81,8 +81,6 @@ def fetch_user_top_genres(access_token: str, data) -> requests.Response:
         "limit": limit,
         "offset": offset
     }
-
-    print(query_params)
 
     spotify_endpoint = f"{SPOTIFY_API_BASE_URL}{route}"
     response = requests.get(spotify_endpoint, headers=request_headers, params=query_params)

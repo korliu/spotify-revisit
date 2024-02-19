@@ -1,16 +1,18 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
 import Image from "next/image"; 
 import { noSpotifyImageFound } from "@/lib/defaults";
+import { handleWaitingForData } from "@/lib/handlers";
+import { Artist, SpotifyImage, TopItems } from "@/lib/types";
 import useDataFetch from "@/hooks/useSpotifyDataFetch";
-import { handleError, handleWaitingForData } from "@/lib/handlers";
-import { redirect, useRouter } from "next/navigation";
-import { Lato } from "next/font/google";
-import { interfaceIs } from "@/typeGuard";
 
+import { IconContext } from "react-icons";
+import { RiFolderMusicFill } from "react-icons/ri";
+import { BsMusicNoteList } from "react-icons/bs";
+import { MdLibraryMusic } from "react-icons/md";
 
 export default function UserTopArtists() {
+  
 
   const body = {
     "time_range": "medium_term",
@@ -23,13 +25,11 @@ export default function UserTopArtists() {
     isFetched, 
     isLoading, 
     error
-  } = useDataFetch("user-top-artists", "/user-top-artists", {body: body});
+  } = useDataFetch<TopItems<Artist>>("user-top-artists", "/user-top-artists", {body: body});
 
-  const isTopArtistsData = (data: object): data is TopArtists => {
+  const isTopArtistsData = (data: TopItems<Artist>): data is TopItems<Artist> => {
 
-    const topArtistsData = (data as TopArtists);
-
-    return (topArtistsData.hasOwnProperty("items") && topArtistsData.items[0].type === "artist")
+    return (data.hasOwnProperty("items") && data.items[0].type === "artist")
 
   } 
 
@@ -39,7 +39,7 @@ export default function UserTopArtists() {
   
     return (
       <section className="sidebar-top-artists-section"> 
-          {topArtists.map(artist => ArtistDisplay(artist))}
+          {topArtists.map((artist: Artist) => ArtistDisplay(artist))}
       </section>
     )
 
@@ -58,6 +58,7 @@ function ArtistDisplay(artist: Artist){
   const artistName: string = artist.name ?? "No name found";
   const artistImage: SpotifyImage = artist.images ? artist.images[0] : noSpotifyImageFound();
   const artistLink: string = artist.external_urls.spotify;
+  const artistGenres: string[] = artist.genres;
 
   const imageStyle = {
     borderRadius: "50%",
@@ -81,11 +82,11 @@ function ArtistDisplay(artist: Artist){
       />
       
     </a>
-  )
+  );
 
 
   return (
-    <div className="sidebar-top-artists-item">
+    <div className="sidebar-top-artists-item" key={artist.uri ?? artistName}> 
 
         {/* box for image */}
         <div id="artist-image">
@@ -93,16 +94,41 @@ function ArtistDisplay(artist: Artist){
         </div>
         
         {/* outer box */}
-        <div id="artist-name">
+        <div id="artist-info">
           {/* inner box to align artist name to the left */}
-          <div style={{
-            display:"flex",
-            width:"95%",
-            alignItems:"center",
-            justifyContent:"left",
-            fontSize:"larger"
+          <div id="artist-name" style={{
+            gridArea: "artist-name",
+            alignSelf:"end",
+            fontSize:"larger",
+            fontWeight: "500"
           }}>
             {artistName}
+          </div>
+
+          
+          <div id="genre-icon" style = {{
+            gridArea:"genre-icon",
+            marginRight: "0.5rem"
+          }}>
+            <IconContext.Provider value = {{ 
+                color: "green", 
+                size: "1.1rem",
+                style: {
+                  transform:"translate(25%)",
+                }
+              }}>
+              <MdLibraryMusic />
+            </IconContext.Provider>
+          </div>
+
+          <div id="artist-genres" style={{
+            gridArea:"artist-genres",
+            float:"left",
+            wordWrap:"break-word",
+            fontSize:"x-small",
+
+          }}>
+            {artistGenres.join(", ")}
           </div>
 
         </div>

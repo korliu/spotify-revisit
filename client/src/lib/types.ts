@@ -1,5 +1,9 @@
+export type BackendResponse<T> = {
+    data: T;
+    access_token: string;
+}
 
-interface UserProfile {
+export type UserProfileData = {
     country: string;
     display_name: string;
     email: string;
@@ -17,24 +21,25 @@ interface UserProfile {
     uri: string;
 }
 
-interface SpotifyImage {
+export type SpotifyImage = {
     url: string;
     height: number;
     width: number;
 }
 
-interface TopArtists {
+type ItemObject = Artist | Track;
+export type TopItems<ItemObject> = {
     href: string;
     limit: number;
     next: string;
     offset: number;
     previous: string;
     total: number;
-    items: Artist[];
+    items: ItemObject[];
 }
 
 
-interface Artist {
+export type Artist = {
     external_urls: {spotify: string};
     followers: {href: string, total: number};
     genres: string[];
@@ -47,17 +52,7 @@ interface Artist {
     uri: string;
 }
 
-interface TopTracks {
-    href: string;
-    limit: number;
-    next: string;
-    offset: number;
-    previous: string;
-    total: number;
-    items: Track[];
-}
-
-interface Track{
+export type Track = {
     album: Album;
     artists: Artist[];
     available_markets: string[];
@@ -83,9 +78,7 @@ interface Track{
 }
 
 
-
-
-interface SimplifiedArtist {
+export type SimplifiedArtist = {
     external_urls: {spotify: string};
     href: string;
     id: string;
@@ -94,7 +87,7 @@ interface SimplifiedArtist {
     uri: string;
 }
 
-interface Album {
+export type Album = {
     album_type: "album" | "single" | "compilation",
     total_tracks: number,
     available_markets: string[],

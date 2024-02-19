@@ -1,3 +1,4 @@
+import { SpotifyImage } from "./types";
 
 
 export function noSpotifyImageFound(height: number = 50, width: number = 50): SpotifyImage{

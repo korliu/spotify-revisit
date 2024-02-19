@@ -42,7 +42,6 @@ export function useVerifierAndChallenge(){
 
     }, []);
 
-    // console.log(verifier, challenge)
 
     return {
         "verifier": verifier,
@@ -51,7 +50,8 @@ export function useVerifierAndChallenge(){
 
 }
 
-export function useRefreshToken(refresh_token: string){
+// doesnt work yet
+function useRefreshToken(refresh_token: string){
 
     const [refreshToken, setRefreshToken] = useState("");
 

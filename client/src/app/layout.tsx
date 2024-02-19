@@ -4,9 +4,6 @@ import "./globals.css";
 import { ReactQueryProvider} from "@/components/ReactQueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import AppContent from "@/components/layout/AppContent"
-import SideBar from "@/components/layout/SideBar"
-import TopBar from "@/components/layout/TopBar"
 
 
 

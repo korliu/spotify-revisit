@@ -3,6 +3,7 @@ import Image from "next/image";
 import {noSpotifyImageFound} from "@/lib/defaults";
 import useDataFetch from "@/hooks/useSpotifyDataFetch";
 import { handleWaitingForData } from "@/lib/handlers";
+import { UserProfileData } from "@/lib/types";
 
 // TODO: import CSS and react stuff
 
@@ -13,15 +14,18 @@ export default function UserProfile() {
     isFetched, 
     isLoading, 
     error
-  } = useDataFetch("profile-data", "/profile");
+  } = useDataFetch<UserProfileData>("profile-data", "/profile");
 
-  const isUserProfile = (data: object) : data is UserProfile => {
-    return (data.hasOwnProperty("top_genres") )
+  const isUserProfile = (data: UserProfileData) : data is UserProfileData => {
+
+    const dataType: undefined | string = data.type;
+    return dataType !== undefined && dataType === "user";
+
   }
   
   if (data && isUserProfile(data)) {
 
-    const profileData: UserProfile = data as UserProfile;
+    const profileData: UserProfileData = data;
 
     return (
 
@@ -38,7 +42,7 @@ export default function UserProfile() {
 }
 
 
-function ProfileData(profile: UserProfile) {
+function ProfileData(profile: UserProfileData) {
 
     const {
       display_name: displayName,

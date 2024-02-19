@@ -25,9 +25,9 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(hours=8)
 client_origins = ["http://localhost:5173"]
 CORS(app,origins=client_origins,supports_credentials=True) 
 
-@app.errorhandler(403)
+@app.errorhandler(429)
 def app_exceeded_rate_limits(error):
-    return {'error': error}, 403
+    return {'error': error}, 429
 
 
 @app.errorhandler(401)
@@ -36,6 +36,12 @@ def expired_token(error):
     print("handler", error)
     print("401 error please refresh token")
     return {"error": "expired token"}, 401
+
+@app.errorhandler(500)
+def internal_error(error):
+    # TODO handle refresh token in the backend, then send 201
+    print("handler", error)
+    return {"error": "server error"}, 500
 
 
 @app.route("/")
@@ -58,7 +64,7 @@ def authentication():
 @app.route("/access-token", methods=['POST'])
 def access_token():
     
-    data = request.get_json()
+    data: dict = request.get_json()
     r = auth.fetch_access_token(data)
     response = r.json()
 
@@ -68,7 +74,7 @@ def access_token():
     except:
         abort(r.status_code)
     
-    access_token = response['access_token']
+    access_token: str = response['access_token']
     refresh_token: str = response['refresh_token']
     expires_in: int = int(response['expires_in'])
     
@@ -97,7 +103,6 @@ def profile():
         r.raise_for_status()
 
     except:
-        # print("error response", response)
         abort(r.status_code, description=response['error']['message'])
 
     return response
@@ -115,7 +120,7 @@ def user_artists():
         r.raise_for_status()
     
     except:
-        # print("error response", response)
+
         abort(r.status_code, description=response['error']['message'])
 
     return response
@@ -132,7 +137,7 @@ def user_tracks():
         r.raise_for_status()
     
     except:
-        # print("error response", response)
+
         abort(r.status_code, description=response['error']['message'])
 
     return response
@@ -141,7 +146,7 @@ def user_tracks():
 @app.route("/user-top-genres", methods = ['POST'])
 def user_genres():
     data = request.get_json()
-    print("data is", data)
+    # print("data is", data) 
     access_token = data.pop("access_token")
     r = spotify_api.fetch_user_top_genres(access_token, data)
 
@@ -155,7 +160,7 @@ def user_genres():
         abort(r.status_code, description=response['error']['message'])
 
     genre_data = utils.get_genres_from_tracks(access_token, response.get("items", list()))
-    print(genre_data)
+    # print(genre_data)
 
     return {
         "top_genres": genre_data["top"],

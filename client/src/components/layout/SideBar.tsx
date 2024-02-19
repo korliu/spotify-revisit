@@ -1,6 +1,5 @@
 "use client";
 
-import UserProfile from "@/components/sidebar/UserProfile";
 import UserTopGenres from "@/components/sidebar/UserTopGenres";
 import UserTopArtists from "@/components/sidebar/UserTopArtists";
 import UserTopTracks from "@/components/sidebar/UserTopTracks";
@@ -17,14 +16,18 @@ export default function Sidebar(){
         // profile stuff
         // profile spotify data stuff
         <>
-            <UserProfile />
-            <h3>Your Recent Top Artists</h3>
-            <UserTopArtists />
-            <h3>Your Recent Top Tracks</h3>
-            <UserTopTracks />
+            <div className="sidebar-content">
 
-            <h3>Your Recent Top Genres</h3>            
-            <UserTopGenres />
+                <h3 className="sidebar-content-header">Your Recent Top Artists</h3>
+                <UserTopArtists />
+                <h3 className="sidebar-content-header">Your Recent Top Tracks</h3>
+                <UserTopTracks />
+                <h3 className="sidebar-content-header">Your Genre Profile!</h3>            
+                <UserTopGenres />
+
+            </div>
+
+
         </>
         
         

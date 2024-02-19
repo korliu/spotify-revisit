@@ -6,7 +6,6 @@ const server = process.env.SERVER!;
 */
 export async function fetchServer(method: string, route: string, options: any = {}){
 
-    // console.log(`Fetching ${method} request from ${route} route`);
 
     const serverEndPoint = `${server}${route}`;
     const fetchOptions = {

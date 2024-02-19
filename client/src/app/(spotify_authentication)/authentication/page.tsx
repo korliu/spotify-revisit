@@ -1,8 +1,8 @@
 "use client";
+import { useQuery } from '@tanstack/react-query';
+import { redirect } from 'next/navigation'
 
 import { fetchServer } from '@/lib/request';
-import { redirect } from 'next/navigation'
-import { useQuery } from '@tanstack/react-query';
 import { CLIENT_ID, REDIRECT_URI } from '@/lib/_constants';
 
 
@@ -14,13 +14,11 @@ export default function Authenticate() {
     });
     
     if (isLoading) {
-        console.log("Fetching code verifier and challenge");
-        return <></>;
+        return <>"Fetching code verifier and challenge"</>;
     };
 
     if (error){
-        console.error("Error fetching code verifier and challenge");
-        return <></>;
+        return <>"Error fetching code verifier and challenge"</>;
     };
 
     
@@ -53,13 +51,10 @@ export default function Authenticate() {
     }
 }
 
-
 const fetchVerifierAndChallenge = async () => {
 
-    console.log("Attempting to fetch verifier and challenge");
     const authRoute = `/authentication`;
     const response = await fetchServer('GET', authRoute);
     return await response.json();
-
 
 }

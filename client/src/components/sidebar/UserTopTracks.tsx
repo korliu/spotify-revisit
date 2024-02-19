@@ -1,11 +1,10 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
 import Image from "next/image"; 
 import { noSpotifyImageFound } from "@/lib/defaults";
-import useDataFetch from "@/hooks/useSpotifyDataFetch";
 import { handleWaitingForData } from "@/lib/handlers";
-import { interfaceIs } from "@/typeGuard";
+import { Album, SpotifyImage, TopItems, Track } from "@/lib/types";
+import useDataFetch from "@/hooks/useSpotifyDataFetch";
 
 
 export default function UserTopTracks() {
@@ -22,14 +21,13 @@ export default function UserTopTracks() {
     isFetched, 
     isLoading, 
     error
-  } = useDataFetch("user-top-tracks", "/user-top-tracks", {body: body});
+  } = useDataFetch<TopItems<Track>>("user-top-tracks", "/user-top-tracks", {body: body});
 
 
-  const isTopTracksData = (data: object): data is TopTracks => {
+  const isTopTracksData = (data: TopItems<Track>): data is TopItems<Track> => {
 
-    const topTracksData = (data as TopTracks);
 
-    return (topTracksData.hasOwnProperty("items")  && topTracksData.items[0].type === "track")
+    return (data.hasOwnProperty("items")  && data.items[0].type === "track")
 
   } 
   
@@ -71,7 +69,9 @@ function TrackDisplay(track: Track){
 
   const albumImageComponent = (
     <a href={trackLink} target="_blank" 
-    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+    style={{ 
+      display: "flex", alignItems: "center", justifyContent: "center" 
+    }}>
       <Image 
       src={trackAlbumImage.url}
       width={50}
@@ -85,7 +85,7 @@ function TrackDisplay(track: Track){
   )
 
   return (
-    <div className="sidebar-top-tracks-item">
+    <div className="sidebar-top-tracks-item" key={trackTitle}>
           <div id="album-image">
             {albumImageComponent}
         </div>

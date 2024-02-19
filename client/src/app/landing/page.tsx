@@ -1,11 +1,6 @@
 "use client"
 
-
-import { useAccessToken, useVerifierAndChallenge } from "@/hooks/useAuthentication"
-import { fetchServer } from "@/lib/request";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
 export default function LandingPage(){
 
@@ -15,7 +10,6 @@ export default function LandingPage(){
         const accessToken = localStorage.getItem("accessToken");
 
         if (accessToken){
-            // TODO: check if access token is still valid
             // redirect to home
             router.push("/revisit/home");
         } else {
@@ -27,8 +21,11 @@ export default function LandingPage(){
 
     return (
         <>
-            <h2>Hi there!</h2>
-            <button onClick={handleLogin}>Log into spotify!</button>
+            <div className = "landing-page">
+                <h2>Hi there!</h2>
+                <button onClick={handleLogin}>Log into spotify!</button>
+            </div>
+
         </>
     )
 

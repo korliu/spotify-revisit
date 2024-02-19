@@ -2,18 +2,20 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
+import UserProfile from '../topbar/UserProfile';
 
 
 export default function TopBar(){
 
 
-    // LOGO     Nav     Settings
+    // LOGO     Nav     Settings/Logout
 
 
     const router = useRouter();
 
     return (
-        <nav className="top-bar-nav">
+        <>
+        <nav className="topbar-nav">
 
 
             <Link href="/revisit/home" className='nav-link'>Home</Link>
@@ -24,9 +26,12 @@ export default function TopBar(){
                     router.push("/landing");
                 
             }}>
-                Click here to logout
+                Logout
                 </button>
 
         </nav>
+ 
+        <UserProfile />
+        </>
     )
 }

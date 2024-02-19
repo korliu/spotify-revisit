@@ -8,7 +8,9 @@ export default function HomePage() {
 
   return (
     <>
-      <UserTopGenres />
+      <div className="home-page" style={{}}>
+        This is the home page, hello!
+      </div>
     </>
   );
 

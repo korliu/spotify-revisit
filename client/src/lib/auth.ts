@@ -7,9 +7,9 @@ const clientId = process.env.SPOTIFY_CLIENT_ID!;
 export async function fetchAccessToken(
     authCode: string, codeVerifier:string, redirectURI: string): Promise<Response> {
 
-    const tokenRoute = "/access-token";
+    const tokenRoute: string = "/access-token";
 
-    const data = {
+    const data: object = {
         'grant_type': "authorization_code",
         'client_id': clientId,
         'code': authCode,
@@ -17,7 +17,7 @@ export async function fetchAccessToken(
         'redirect_uri': redirectURI
     };
 
-    const response = await fetchServer('POST', tokenRoute, {
+    const response: Response = await fetchServer('POST', tokenRoute, {
         body: JSON.stringify(data),
         headers: {"Content-Type": "application/json"}
     });
@@ -25,9 +25,10 @@ export async function fetchAccessToken(
     return response
 }
 
-export async function refreshAccessToken(refreshToken: string): Promise<Response> {
+// not working yet
+async function refreshAccessToken(refreshToken: string): Promise<Response> {
 
-    const tokenRoute = "/access-token";
+    const tokenRoute: string = "/access-token";
 
     const data = {
         'grant_type': "refresh_token",

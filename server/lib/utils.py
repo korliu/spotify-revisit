@@ -47,14 +47,22 @@ def get_genres_from_tracks(access_token: str, tracks_data: list) -> dict:
         artist_href = artist["href"]
         artist_genres = artist["genres"]
 
-        print(artist["name"], ":", artist_genres)
-
         for genre in artist_genres:
 
             genre_histogram[genre] = genre_histogram[genre] + 1
 
             if artist_name not in artists_found:
-                genre_artists[genre].append(artist_name)
+                artist_href = artist["href"]
+                artist_images = artist["images"]
+
+                artist_data = {
+                    "artist_name": artist_name,
+                    "artist_link": artist_href,
+                    "artist_images": artist_images
+                }
+                
+                artist_data = artist_name
+                genre_artists[genre].append(artist_data)
                 
         artists_found.add(artist_name)
 
